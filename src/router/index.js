@@ -6,12 +6,12 @@ const routes = createRouter({
     routes:[
         {
             path:'/',
-            // redirect:'/',
             component:LeaderPage
         },
-        // {
-        //     path:''
-        // }
+        {
+            path:'/index',
+            component:()=> import('../views/Index/Index')
+        }
     ]
 })
 

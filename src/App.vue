@@ -1,5 +1,9 @@
 <template>
-  <router-view></router-view>
+        <router-view v-slot="{Component}">
+            <transition name="fade">
+                <component  :is="Component" />
+            </transition>
+        </router-view>
 </template>
 
 <script>
@@ -7,7 +11,6 @@
 export default {
   name: 'App',
   components: {
-    // HelloWorld
   }
 }
 </script>
@@ -24,5 +27,12 @@ body{
   margin: 0;
   width: 100%;
   height: 100vh;
+}
+
+.fade-enter-active,.fade-leave-active{
+    transition: opacity .5s;
+}
+.fade-enter,.fade-leave-to{
+    opacity:0;
 }
 </style>

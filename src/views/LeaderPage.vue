@@ -19,18 +19,20 @@
 </template>
 
 <script>
-import {ref,reactive} from 'vue'
+import {ref} from 'vue';
+import {useRouter} from 'vue-router'
 export default {
     setup(){
         let countdown = ref(5)
-        let timer = reactive(null)
+        let timer = ref(null)
+        const router = useRouter()
         // 倒计时定时器
         const setCountDown = ()=>{
-            timer = setInterval(()=>{
+            timer.value = setInterval(()=>{
                 if(countdown.value === 0){
-                    clearInterval(timer)
+                    clearInterval(timer.value)
                     // 进入首页面
-
+                    router.push('/index')
                     return
                 }
                 countdown.value --
