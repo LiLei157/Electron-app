@@ -13,8 +13,8 @@ protocol.registerSchemesAsPrivileged([
 async function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1920,
+    height: 1080,
     autoHideMenuBar:true,
     webPreferences: { 
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -62,8 +62,14 @@ app.on('ready', async () => {
       console.error('Vue Devtools failed to install:', e.toString())
     }
   }
-  createWindow()
+  await createWindow()
+  await resizeWindow()
 })
+const resizeWindow = async ()=>{
+  app.on('resize',async ()=>{
+    console.log('resize....')
+  })
+}
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
