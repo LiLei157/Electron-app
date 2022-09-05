@@ -25,54 +25,28 @@
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue';
+import {ref,getCurrentInstance} from 'vue';
 import IndexHeader from "./components/IndexHeader";
-
+let global = getCurrentInstance()
+let {appContext:{config:{globalProperties}}} = getCurrentInstance()
+console.log('instance: ',global,globalProperties)
 let currentIndex = ref(0)
-const tabList = reactive([
-  {
-    id: 0,
-    title: '国防影视'
-  },
-  {
-    id: 1,
-    title: '教育视频'
-  },
-  {
-    id: 2,
-    title: '装备普及'
-  },
-  {
-    id: 3,
-    title: '装备解说'
-  },
-  {
-    id: 4,
-    title: '宣传海报'
-  },
-  {
-    id: 5,
-    title: '国防阅读'
-  },
-  {
-    id: 6,
-    title: '教育直播'
-  },
-  {
-    id: 7,
-    title: '动画短片'
-  },
-  {
-    id: 8,
-    title: '法规文献'
-  },
-])
+let tabList = ref([])
 const leftScroll = ref(0)
 
 const handleClickItem = (idx) => {
   currentIndex.value = idx
   leftScroll.value = 7 + (currentIndex.value * 11 + currentIndex.value * 1)
 }
+// 获取tab列表
+const getVisualClassificationList = ()=>{
+    globalProperties.$axios.getRequest('/api/get_visual_classification').then(res =>{
+        console.log(res.data,tabList)
+        tabList.value = res.data
+        console.log('tabList: ',tabList)
+    })
+}
+getVisualClassificationList()
 </script>
 
 <style>
