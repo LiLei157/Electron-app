@@ -2,24 +2,12 @@
     <div class="home">
       <index-header></index-header>
       <div class="main-container">
-        <div class="top-tab-header-wrap">
-          <div class="tab-left-arrow">
-          </div>
-          <!--  顶部tab切换栏 -->
-          <div class="tab-wrap">
-            <div class="tab-scroll-container">
-              <div v-for="(item,idx) in tabList" :key="'tab-'+item.id"
-                   :class="currentIndex === idx ? 'tab-item-active':'tab-item'" @click="handleClickItem(idx)">
-                {{ item.title }}
-              </div>
-            </div>
-            <img :style="{left:leftScroll + 'rem'}" class="tab-under-icon"
-                 src="../../assets/imgs/index/underline-icon.png"/>
-          </div>
-          <div class="tab-right-arrow">
-          </div>
+        <header-tool-bar :tabList="tabList" @handleClickItem="handleClickItem"></header-tool-bar>
+
+        <div class="bottom-tab-body">
+            <video-item :videoItem="item" v-for="(item,idx) in videoList" :key="'video-'+idx">
+            </video-item>
         </div>
-        <div class="bottom-tab-body"></div>
       </div>
     </div>
 </template>
@@ -27,16 +15,22 @@
 <script setup>
 import {ref,getCurrentInstance} from 'vue';
 import IndexHeader from "./components/IndexHeader";
+import HeaderToolBar from '@/components/HeaderToolbar'
+import VideoItem from '@/components/VideoItem';
+
 let global = getCurrentInstance()
 let {appContext:{config:{globalProperties}}} = getCurrentInstance()
 console.log('instance: ',global,globalProperties)
-let currentIndex = ref(0)
-let tabList = ref([])
-const leftScroll = ref(0)
 
+let tabList = ref([])
+let videoList = ref([])
+
+// 视频分类id
+let videoId = ref(1)
+
+// 点击切换tab项
 const handleClickItem = (idx) => {
-  currentIndex.value = idx
-  leftScroll.value = 7 + (currentIndex.value * 11 + currentIndex.value * 1)
+  console.log(idx)
 }
 // 获取tab列表
 const getVisualClassificationList = ()=>{
@@ -47,6 +41,15 @@ const getVisualClassificationList = ()=>{
     })
 }
 getVisualClassificationList()
+
+// 获取每一个不同分类的视频项
+const getVideoList = ()=>{
+    globalProperties.$axios.getRequest(`/api/get_video_list/${videoId.value}`).then(res =>{
+        console.log('vedioList: ',res.data)
+        videoList.value = res.data
+    })
+}
+getVideoList()
 </script>
 
 <style>
@@ -57,68 +60,21 @@ getVisualClassificationList()
   background-size: cover;
   display: flex;
   flex-direction: column;
-  position: relative;
+  user-select: none;
 }
 
 .main-container {
   flex: 1;
-  padding: 2.5rem 4.5rem 3rem 4.5rem;
+  padding: 2.5rem 4.5rem 2rem 4.5rem;
   display: flex;
   flex-direction: column;
 }
-.top-tab-header-wrap{
-  display: flex;
-  justify-items: center;
-}
-.tab-wrap {
-  display: flex;
-  align-items: center;
-  height: 3.88rem;
-  overflow-x: auto;
-}
 
-.tab-scroll-container {
-  height: 3.88rem;
-  display: flex;
-  align-items: center;
-  /*padding: 0 3rem;*/
-}
-
-.tab-left-arrow, .tab-right-arrow {
-  width: 3rem;
-  height: 3rem;
-}
-
-.tab-item {
-  font-family: "YouSheBiaoTiHei";
-  font-size: 2rem;
-  color: rgba(255, 255, 255, 0.55);
-  margin-right: 4.8rem;
-  white-space: nowrap;
-  transition: all .3s;
-}
-
-.tab-item-active {
-  font-family: "YouSheBiaoTiHei";
-  margin-right: 1.13rem;
-  font-size: 3rem;
-  color: #fef3e6;
-  text-shadow: 0 0.19rem 0.19rem #000;
-  white-space: nowrap;
-  transition: all .3s;
-  z-index: 10;
-}
-
-.tab-under-icon {
-  top: 11.88rem;
-  position: absolute;
-  width: 13rem;
-  height: 3rem;
-  transition: all .3s;
-}
 .bottom-tab-body{
   flex: 1;
   padding-top: 2.06rem;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 ::-webkit-scrollbar {

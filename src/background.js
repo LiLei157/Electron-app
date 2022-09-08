@@ -16,6 +16,7 @@ async function createWindow() {
     width: 1920,
     height: 1080,
     autoHideMenuBar:true,
+    titleBarStyle:"default",
     webPreferences: { 
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
