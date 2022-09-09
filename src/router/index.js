@@ -11,6 +11,10 @@ const routes = createRouter({
         {
             path:'/index',
             component:()=> import('../views/Index/Index')
+        },
+        {
+            path:'/search',
+            component:()=> import('../views/Search/VideoSearch')
         }
     ]
 })

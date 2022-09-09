@@ -1,6 +1,6 @@
 <template>
     <div class="header-row">
-        <div class="left-arrow">
+        <div class="left-arrow" @click="handleChangeTabItem(0)">
             <img class="left-icon" src=".././assets/imgs/index/left-arrow.png" alt="">
         </div>
         <div class="header-tab-bar">
@@ -8,7 +8,7 @@
                 {{item.title}}
             </div>
         </div>
-        <div class="right-arrow">
+        <div class="right-arrow" @click="handleChangeTabItem(1)">
             <img class="right-icon" src=".././assets/imgs/index/left-arrow.png" alt="">
         </div>
     </div>
@@ -21,7 +21,7 @@
         tabList:Array
     })
     let currentIndex = ref(0)  
-    let emit = defineEmits(['handleClickItem'])
+    let emit = defineEmits(['handleClickItem','handleChangeTabItem'])
     
     console.log(props.tabList)
     
@@ -30,7 +30,12 @@
         emit('handleClickItem',currentIndex.value)
     }
 
-
+    const handleChangeTabItem = (type)=>{
+        currentIndex.value = type === 0 ? (currentIndex.value !== 0 ? currentIndex.value -1 : 0) : 
+                                    (currentIndex.value === props.tabList.length ? props.tabList.length : currentIndex.value + 1)
+        // emit('handleChangeTabItem',currentIndex.value)
+        emit('handleClickItem',currentIndex.value)
+    }
 </script>
 
 <style>

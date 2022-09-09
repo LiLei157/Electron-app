@@ -2,7 +2,7 @@
   <div class="header">
     <date-show :positionOptions="positionOptions"></date-show>
     <div class="right-operation-wrap">
-      <div class="search-wrap">
+      <div class="search-wrap" @click="handleSearch">
         <img class="search-icon" src="../../../assets/imgs/index/search_icon.png"/>
         <div>搜索</div>
       </div>
@@ -23,11 +23,18 @@
 <script setup>
   import DateShow from '@/components/DateShow.vue';
   import {reactive} from 'vue';
+  import {useRouter} from 'vue-router'
 
+  const $router = useRouter()
   let positionOptions = reactive({
     top:'3.25rem',
     left:'51rem'
   })
+
+
+  const handleSearch = ()=>{
+    $router.push('/search')
+  }
 </script>
 <style>
 .header{

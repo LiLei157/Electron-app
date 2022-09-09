@@ -6,3 +6,7 @@
     font-family: 'PingFang SC';
     src: url(./PingFang\ SC.ttf);
 }
+@font-face {
+    font-family: 'PingFang SC Medium';
+    src: url(./PingFang\ SC\ Medium.ttf);
+}

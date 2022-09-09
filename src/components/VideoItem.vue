@@ -3,9 +3,10 @@
         <!-- <img class="video-img" :src=""> -->
         <!-- <span style="color:white">{{videoItem.imageUrl}}</span> -->
         <div class="download-wrap">
-            <span class="download-text">未下载</span>
+            <span :class="['download-text',videoItem.download === 0 ? 'no-download':'is-download']"> {{videoItem.download === 0 ? '未下载' : '已下载'}} </span>
             <div class="split-line"></div>
-            <img class="collection-icon" src=".././assets/imgs/index/uncollection-icon.png" alt="">
+            <img v-if="!(videoItem.collect)" class="collection-icon" src=".././assets/imgs/index/uncollection-icon.png" alt="">
+            <img v-else class="collection-icon" src=".././assets/imgs/index/collection-icon.png" alt="">
         </div>
         <div class="mask-title">
             <div class="mask-title-wrap">
@@ -29,7 +30,7 @@
     height: 15.19rem;
     border-radius: 0.25rem;
     position: relative;
-    margin-right: 1rem;
+    margin-right: 0.7rem;
     cursor: pointer;
 }
 .video-img{
@@ -50,31 +51,37 @@
 }
 .download-text{
    font-size: 0.75rem; 
-   color: rgba(255, 255, 255, 0.55);
    position: absolute;
    left: 0.75rem;
    top: 50%;
    transform: translateY(-50%);
 }
+.no-download{
+    color: rgba(255, 255, 255, 0.9);
+}
+.is-download{
+    color: rgba(255, 255, 255, 0.55);
+}
 .split-line{
     width: 0.06rem;
     height: 1.25rem;
     color: rgba(255, 255, 255, 0.22);
-    margin: 0 0.5rem;
     position: absolute;
     left: 3.5rem;
     top: 50%;
     transform: translateY(-50%);
 }
 .collection-icon{
-    width: 0.86rem;
-    height: 0.82rem;
+    width: 1.25rem;
+    height: 1.25rem;
     position: absolute;
     right: 0.7rem;
     top: 50%;
     transform: translateY(-50%);
+    transition: all .3s;
 }
 .mask-title{
+    box-sizing: border-box;
     width: 100%;
     height: 3.5rem;
     line-height: 3.5rem;
